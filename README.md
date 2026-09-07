@@ -58,3 +58,7 @@ For a working example, see `HADA_Website_Template_Sample`.
 - Read `AGENTS.md` for full security, scope, and deployment rules
 
 See `AGENTS.md` and `Cursor/tasks/CURRENT.md` for agent operations.
+
+## Disclaimer
+
+See [DISCLAIMER.md](DISCLAIMER.md).
