@@ -3,7 +3,9 @@
 Agent-operable framework for creating, recovering, migrating, maintaining, testing, and
 releasing websites. This is the **public release template** — start here for a new project.
 
-AI Agent対応Webサイト運用フレームワーク v0.1.0 公開テンプレート。
+日本語の情報は、このページの下にあります。
+
+**Working example:** [HADA_Website_Template_Sample](https://github.com/naokihada/HADA_Website_Template_Sample) — verified fictional sample site built with this template.
 
 ---
 
@@ -62,3 +64,85 @@ See `AGENTS.md` and `Cursor/tasks/CURRENT.md` for agent operations.
 ## Disclaimer
 
 See [DISCLAIMER.md](DISCLAIMER.md).
+
+---
+
+# 日本語
+
+## 概要
+
+Webサイトの作成、復旧、移行、保守、テスト、リリースをエージェントが操作可能にする
+フレームワークです。本リポジトリは **公開リリーステンプレート（public release template）** であり、
+新規プロジェクトはここから開始してください。
+
+AI Agent対応Webサイト運用フレームワーク v0.1.0 公開テンプレート。
+
+**動作例:** [HADA_Website_Template_Sample](https://github.com/naokihada/HADA_Website_Template_Sample) — 本テンプレートで構築した架空データによる検証済みサンプルサイト。
+
+---
+
+## これは何か
+
+**Web Site Operations Framework** — 単一のWebサイトではありません。Content Master、
+処理ツール、plugins（capabilities）、Publication Root を分離し、エージェントと人間が
+監査可能な手順でサイトを決定論的に運用できるようにします。
+
+---
+
+## v0.1.0 の範囲
+
+- Foundation structure and agent contract（`AGENTS.md`）
+- Core Validator（`tools/core/validate_framework.py`）
+- Minimal i18n（jp / en）
+- Japanese Content Master（`content/jp/`）
+- jp → en translation with mock provider
+- Single site-wide term dictionary（`config/term_dictionary.yaml`）
+- Markdown → HTML build（`tools/core/build_site.py`）
+- Basic tests
+
+v0.1.0 に含まれないもの: real AI translation API、WordPress、RSS、PWA、FTP、n8n、cron、
+plugins、full site import、production automation。
+
+---
+
+## はじめに
+
+1. `config/term_dictionary.example.yaml` を `config/term_dictionary.yaml` にコピーし、entries を編集する。
+2. Markdown コンテンツを `content/jp/`（Japanese master）に追加する。
+3. 依存関係をインストールし、検証する:
+
+```text
+pip install -r tools/core/requirements.txt
+python tools/core/validate_framework.py --root .
+python tools/core/build_site.py --root .
+```
+
+4. 生成された HTML は `site/` 配下に出力される。
+
+---
+
+## リポジトリの役割
+
+| Repo | Role |
+|---|---|
+| `HADA_Website_Template` | 本リポジトリ — clean v0.1.0 template |
+| `HADA_Website_Template_Dev` | Development workspace |
+| `HADA_Website_Template_Sample` | Verified example with fictional sample site |
+
+動作例は `HADA_Website_Template_Sample` を参照してください。
+
+---
+
+## 安全性
+
+- Secrets never committed（`config/local.yaml`、`.env` — `.gitignore` 参照）
+- Only `site/`（Publication Root）is deployed by default
+- 完全な security / scope / deployment rules は `AGENTS.md` を参照
+
+Agent operations の開始点: `AGENTS.md` および `Cursor/tasks/CURRENT.md`。
+
+---
+
+## Disclaimer（免責事項）
+
+詳細な免責事項は [DISCLAIMER.md](DISCLAIMER.md) を参照してください。
