@@ -1,0 +1,23 @@
+# Site-wide authoritative term dictionary (single file — do not split)
+# Copy this file to config/term_dictionary.yaml and edit for your project.
+
+version: "0.1"
+
+entries:
+  - source: "例示株式会社"
+    target: "Example Corporation"
+    type: company
+    enabled: true
+    note: "Replace with your company name"
+
+  - source: "例示花子"
+    target: "Example Hanako"
+    type: person
+    enabled: true
+    note: "Replace with your person name"
+
+  - source: "HADA Website Operations Framework"
+    target: "HADA Website Operations Framework"
+    type: service
+    enabled: true
+    note: "Product name"
