@@ -15,8 +15,8 @@ Canonical source: `AGENTS.md` Git Rules.
 
 ## Branches
 
-- Foundation and feature work stay in Dev until release extraction
-- Release repo updated only through approved RELEASE workflow
+- Framework development: `HADA_Website_Template_Dev`
+- This repository: public template for site projects (clone/fork and commit locally)
 
 ## Stop conditions
 

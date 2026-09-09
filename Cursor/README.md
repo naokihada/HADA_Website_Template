@@ -1,8 +1,9 @@
 # Cursor workspace
 
-Agent workspace for tasks, reports, logs, and state. **Not part of Publication Root.**
+Agent workspace for tasks, reports, logs, and state.
 
-Do not deploy this directory to the web server.
+**Included in this Git repository.** **Not part of Publication Root** — do not deploy
+this directory to the web server (`site/` only for Web Publish).
 
 | Path | Role |
 |---|---|

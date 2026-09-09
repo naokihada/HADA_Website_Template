@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Core framework validator — implements tools/core/SPEC.md v0.1."""
+"""Core framework validator — core-validator v0.1. See AGENTS.md and tools/README.md."""
 
 from __future__ import annotations
 

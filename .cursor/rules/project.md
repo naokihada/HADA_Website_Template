@@ -1,11 +1,11 @@
 # Project rules (Cursor adapter)
 
 Read `AGENTS.md` first. This file adapts the canonical contract for Cursor sessions in
-`HADA_Website_Template_Dev`.
+`HADA_Website_Template`.
 
 ## Identity
 
-- Framework development repository — not a live site repo
+- Public release template — not a live site repo
 - Publication Root: `site/` only for deployable web content
 - Active task: `Cursor/tasks/CURRENT.md`
 

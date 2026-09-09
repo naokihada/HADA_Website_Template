@@ -12,12 +12,13 @@ they must not contradict this document.
 |---|---|
 | Name | HADA Website Operations Framework |
 | Development repo | `HADA_Website_Template_Dev` |
-| Release repo | `HADA_Website_Template` |
+| Release repo | `HADA_Website_Template` (**this repository** — public template) |
 | Sample repo | `HADA_Website_Template_Sample` |
 | Purpose | Agent-operable website creation, recovery, migration, maintenance, testing, and release |
 
-Relationship: **Development → Release → Sample**. Implement and validate in Dev; extract
-stable engine to Release; demonstrate usage in Sample.
+Relationship: **Development → Release → Sample**. This is the **public release template**.
+Framework development and Master Specification live in `HADA_Website_Template_Dev`.
+See `HADA_Website_Template_Sample` for a verified usage example.
 
 ---
 
@@ -82,7 +83,7 @@ or `config/` unless explicitly instructed for a non-production purpose.
 |---|---|
 | `AGENTS.md` | Canonical agent contract |
 | `.cursor/rules/` | Cursor adapter rules |
-| `Cursor/` | Agent workspace: tasks, reports, logs, state (not published) |
+| `Cursor/` | Agent workspace: tasks, reports, logs, state; **in this Git repository**; excluded from Web Publish (`site/`) |
 | `content/` | Content Master by locale (`en/`, `jp/`) |
 | `site/` | Publication Root — deployable web output |
 | `references/` | External reference registry, cache, reports |
@@ -92,6 +93,38 @@ or `config/` unless explicitly instructed for a non-production purpose.
 | `tests/` | Automated and manual test definitions |
 | `docs/` | Human-facing documentation |
 | `config/` | Project and site configuration (examples committed; secrets excluded) |
+
+---
+
+## Implementation specification
+
+The complete Master Implementation Specification (`SPEC.md`) exists in the
+**development repository only** (`HADA_Website_Template_Dev`). It is not shipped with
+this public template.
+
+Do not create `tools/core/SPEC.md` or other component master specification files in this
+repository. Architecture and operational rules: `AGENTS.md`. Core tools: `tools/README.md`.
+Validation and test runbook: `docs/VALIDATION.md`.
+
+---
+
+## Public template usage
+
+This repository is for **Public Template Users** — clone or fork it to start a site project.
+
+Normal workflow:
+
+```text
+Develop → Test → Validate → Review → Commit
+```
+
+- Track work in `Cursor/tasks/CURRENT.md`
+- Run validation per `docs/VALIDATION.md`
+- Deploy only **Publication Root** (`site/`) for Web Publish — never the full repository
+
+Dev→Public extraction (Repository Release) is a **Maintainer** procedure in
+`HADA_Website_Template_Dev` only (`docs/RELEASE.md` there). It is not part of using this
+template.
 
 ---
 
@@ -155,19 +188,18 @@ State the active mode at the start of significant work.
 | `SYNC` | Align derived artifacts with Content Master or external sources |
 | `VERIFY` | Check correctness without mutating production |
 | `TEST` | Run defined tests and record results |
-| `RELEASE` | Prepare or publish a release candidate to Release repo |
+| `RELEASE` | Tag or publish your project release (not Dev→Public extraction) |
 | `ARCHIVE` | Freeze or preserve a site snapshot for long-term storage |
 
 ---
 
 ## Task Lifecycle
 
-Standard workflow:
+Standard workflow for this public template:
 
 ```text
 Task → Validate → Analyze → Plan → Approval?
-  → Implement → Test → Scope Check → Security Check → Diff Review
-  → Release Candidate → Human Approval → Release
+  → Implement → Test → Scope Check → Security Check → Diff Review → Commit
 ```
 
 Track active work in `Cursor/tasks/CURRENT.md`. Backlog in `BACKLOG.md`. Completed
@@ -178,10 +210,11 @@ Before `Implement`:
 - Confirm scope, mode, and target paths.
 - Identify Content Master vs generated files affected.
 
-Before `Release`:
+Before Web Publish or production-impacting changes:
 
-- All required tests and checks documented in `Cursor/reports/`.
-- Human approval obtained for production-impacting changes.
+- Run tests and validator (`docs/VALIDATION.md`).
+- Record results in `Cursor/reports/TEST.md` and `Cursor/reports/SECURITY.md` when significant.
+- Human approval required for STAGING / PRODUCTION deployment.
 
 ---
 
@@ -203,7 +236,7 @@ Before `Release`:
 - Never commit secrets, credentials, private local paths, or production tokens.
 - Never force-push to `main` without explicit human instruction.
 - Do not amend pushed commits unless explicitly requested.
-- Foundation and feature work stay on Dev until extracted to Release.
+- Framework development belongs in `HADA_Website_Template_Dev`; this repo is the public template.
 
 ---
 
@@ -259,6 +292,7 @@ Preflight → Backup → Apply → Verify → Commit
 ## Testing Rules
 
 - Tests live under `tests/` and may be invoked from `tools/core/`.
+- Validator rules, baseline, and execution: `docs/VALIDATION.md`.
 - Record results in `Cursor/reports/TEST.md` or linked report files.
 - `VERIFY` checks may be read-only; `TEST` may mutate fixtures in non-production paths only.
 - Security checks documented in `Cursor/reports/SECURITY.md` before release candidates.
@@ -284,10 +318,16 @@ without explicit configuration and human approval.
 
 ## Deployment Rules
 
+Web Publish — distinct from Repository Release (Git artifact). Only **Publication Root**
+content is deployed.
+
 - Deployment target is **Publication Root only** (`site/` by default).
-- FTP and other deployment adapters deploy publication content, not the full repository.
+- Never deploy `Cursor/`, `content/`, `tools/`, `references/`, `environments/`, `docs/`,
+  or `config/` to production web document root.
+- FTP and other deployment adapters (Future) deploy publication content, not the full repository.
 - STAGING and PRODUCTION require named environment config and human approval.
 - LOCAL development uses `environments/` definitions; do not assume production parity.
+- v0.1.0: no deployment automation — human-operated deploy only after approval.
 
 ---
 
@@ -295,8 +335,7 @@ without explicit configuration and human approval.
 
 Required before:
 
-- Production deployment or FTP upload
-- Release extraction to `HADA_Website_Template`
+- Production Web Publish or FTP upload
 - Destructive operations on Content Master or external references
 - Enabling plugins that mutate live external systems (WordPress.com, cron, n8n)
 

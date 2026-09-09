@@ -5,7 +5,9 @@ Canonical source: `AGENTS.md` Task Lifecycle and Core Actions.
 ## Standard flow
 
 Task → Validate → Analyze → Plan → Approval? → Implement → Test → Scope Check
-→ Security Check → Diff Review → Release Candidate → Human Approval → Release
+→ Security Check → Diff Review → Commit
+
+Validation runbook: `docs/VALIDATION.md`
 
 ## Modes
 

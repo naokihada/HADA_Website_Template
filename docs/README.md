@@ -2,8 +2,13 @@
 
 Human-facing documentation for the HADA Website Operations Framework.
 
-Architecture baseline: Architecture Specification v0.1 (see `AGENTS.md`).
+Architecture and agent operation: `AGENTS.md`
 
-Agent contract: `AGENTS.md`
+Core tools and validator: `tools/README.md`
+
+Public validation and testing: `docs/VALIDATION.md`
+
+Complete Master Implementation Specification: development repository only
+(`HADA_Website_Template_Dev` — not included in this public template).
 
 Cursor adapter: `.cursor/rules/`

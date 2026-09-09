@@ -1,6 +1,8 @@
 # Architecture rules (Cursor adapter)
 
-Canonical source: `AGENTS.md` Architecture sections.
+Canonical source: `AGENTS.md` Architecture sections. Do not create component master
+specification files (e.g. `tools/core/SPEC.md`). Complete Master Implementation
+Specification exists in `HADA_Website_Template_Dev` only.
 
 ## Key boundaries
 
@@ -10,7 +12,7 @@ Canonical source: `AGENTS.md` Architecture sections.
 | Publication Root | `site/` |
 | External references | `references/` |
 | Capabilities (plugins) | `tools/plugins/` with spec + manifest |
-| Agent workspace | `Cursor/` (not published) |
+| Agent workspace | `Cursor/` (in Git; excluded from Web Publish — `site/` only) |
 
 ## Pipeline
 
@@ -25,4 +27,4 @@ Source → Source Adapter → Content Master → Processing → Destination → 
 
 ## Repository flow
 
-Development (this repo) → Release (`HADA_Website_Template`) → Sample (`HADA_Website_Template_Sample`)
+`HADA_Website_Template_Dev` → `HADA_Website_Template` (this repo) → `HADA_Website_Template_Sample`
