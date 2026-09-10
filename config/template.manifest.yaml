@@ -1,0 +1,97 @@
+# HADA Website Template — machine-readable upgrade contract (v0.1.2)
+# Template version is independent of config/project.yaml → project.version
+
+schema_version: "0.1"
+
+template:
+  id: hada-website-template
+  name: HADA Website Operations Framework
+  version: "0.1.2"
+  release_repository: naokihada/HADA_Website_Template
+
+ownership:
+  template:
+    - "tools/core/**"
+    - "tools/plugins/.gitkeep"
+    - "tools/README.md"
+    - "tests/**"
+    - ".cursor/rules/**"
+    - "docs/VALIDATION.md"
+    - "docs/UPGRADE.md"
+    - "docs/README.md"
+    - "CHANGELOG.md"
+    - "AGENTS.md"
+    - "README.md"
+    - "LICENSE"
+    - "DISCLAIMER.md"
+    - ".gitignore"
+    - "config/template.manifest.yaml"
+    - "config/project.yaml"
+    - "config/site.example.yaml"
+    - "config/local.example.yaml"
+    - "config/term_dictionary.example.yaml"
+    - "environments/environments.example.yaml"
+    - "environments/README.md"
+    - "references/registry/references.example.yaml"
+    - "references/registry/README.md"
+    - "content/README.md"
+    - "site/README.md"
+    - "site/index.html"
+    - "site/assets/.gitkeep"
+    - "Cursor/README.md"
+    - "Cursor/backup/.gitkeep"
+    - "Cursor/changelog/.gitkeep"
+    - "Cursor/inventory/.gitkeep"
+    - "Cursor/logs/.gitkeep"
+    - "Cursor/screenshots/.gitkeep"
+    - "Cursor/state/.gitkeep"
+    - "Cursor/reports/TEST.md"
+    - "Cursor/reports/SECURITY.md"
+    - "Cursor/reports/RELEASE.md"
+    - "Cursor/reports/ANALYSIS.md"
+    - "Cursor/reports/CHATGPT.md"
+    - "Cursor/tasks/BACKLOG.md"
+    - "Cursor/tasks/CURRENT.md"
+    - "Cursor/tasks/TODO.md"
+    - "tools/core/upgrade_from_release.py"
+  user:
+    - "content/jp/**"
+    - "content/en/**"
+    - "config/term_dictionary.yaml"
+    - "config/site.yaml"
+    - "config/local.yaml"
+    - "site/assets/**"
+    - "site/en/**"
+    - "site/jp/**"
+    - "references/registry/**"
+    - "references/cache/**"
+    - "Cursor/logs/**"
+    - "Cursor/state/**"
+    - "Cursor/backup/**"
+    - "Cursor/inventory/**"
+    - "Cursor/changelog/**"
+    - "Cursor/screenshots/**"
+  generated:
+    - "content/en/**"
+    - "site/en/**"
+    - "site/jp/**"
+
+merge_policies:
+  config/project.yaml:
+    strategy: yaml_merge_preserve_user_keys
+    preserve_keys:
+      - project.name
+      - project.mode
+  site/index.html:
+    strategy: three_way_text
+  "Cursor/reports/**":
+    strategy: preserve_if_modified
+
+migrations:
+  "0.1.1":
+    to:
+      - "0.1.2"
+    notes: "Introduces template.manifest.yaml and upgrade_from_release.py"
+  "0.1.2":
+    to: []
+    notes: "Baseline automated upgrade engine"

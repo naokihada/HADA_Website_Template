@@ -1,4 +1,4 @@
-# HADA Website Operations Framework (v0.1.0)
+# HADA Website Operations Framework (v0.1.2)
 
 Agent-operable framework for creating, recovering, migrating, maintaining, testing, and
 releasing websites. This is the **public release template** — start here for a new project.
@@ -15,7 +15,7 @@ A **Web Site Operations Framework** — not a single website. It separates Conte
 processing tools, plugins (capabilities), and the Publication Root so agents and humans
 can operate sites deterministically with audit trails.
 
-## v0.1.0 scope
+## v0.1.2 scope
 
 - Foundation structure and agent contract (`AGENTS.md`)
 - Core Validator (`tools/core/validate_framework.py`)
@@ -24,10 +24,14 @@ can operate sites deterministically with audit trails.
 - jp → en translation with mock provider
 - Single site-wide term dictionary (`config/term_dictionary.yaml`)
 - Markdown → HTML build (`tools/core/build_site.py`)
-- Basic tests
+- **Template Upgrade** from GitHub stable Release (`tools/core/upgrade_from_release.py`)
+- Template version contract (`config/template.manifest.yaml`)
+- Tests (47 total — see `tests/README.md`)
 
-Not included in v0.1.0: real AI translation API, WordPress, RSS, PWA, FTP, n8n, cron,
-plugins, full site import, or production automation.
+Not included: real AI translation API, WordPress, RSS, PWA, FTP, n8n, cron,
+plugins, full site import, or production deployment automation.
+
+Upgrade an existing project: see `docs/UPGRADE.md`.
 
 ## Getting started
 
@@ -47,7 +51,7 @@ python tools/core/build_site.py --root .
 
 | Repo | Role |
 |---|---|
-| `HADA_Website_Template` | This repo — clean v0.1.0 template |
+| `HADA_Website_Template` | This repo — v0.1.2 public template |
 | `HADA_Website_Template_Dev` | Development workspace |
 | `HADA_Website_Template_Sample` | Verified example with fictional sample site |
 
@@ -75,7 +79,7 @@ Webサイトの作成、復旧、移行、保守、テスト、リリースを�
 フレームワークです。本リポジトリは **公開リリーステンプレート（public release template）** であり、
 新規プロジェクトはここから開始してください。
 
-AI Agent対応Webサイト運用フレームワーク v0.1.0 公開テンプレート。
+AI Agent対応Webサイト運用フレームワーク v0.1.2 公開テンプレート。
 
 **動作例:** [HADA_Website_Template_Sample](https://github.com/naokihada/HADA_Website_Template_Sample) — 本テンプレートで構築した架空データによる検証済みサンプルサイト。
 
@@ -89,7 +93,7 @@ AI Agent対応Webサイト運用フレームワーク v0.1.0 公開テンプレ�
 
 ---
 
-## v0.1.0 の範囲
+## v0.1.2 の範囲
 
 - Foundation structure and agent contract（`AGENTS.md`）
 - Core Validator（`tools/core/validate_framework.py`）
@@ -98,10 +102,14 @@ AI Agent対応Webサイト運用フレームワーク v0.1.0 公開テンプレ�
 - jp → en translation with mock provider
 - Single site-wide term dictionary（`config/term_dictionary.yaml`）
 - Markdown → HTML build（`tools/core/build_site.py`）
-- Basic tests
+- **Template Upgrade**（GitHub stable Release — `tools/core/upgrade_from_release.py`）
+- Template version contract（`config/template.manifest.yaml`）
+- Tests（47 total — `tests/README.md` 参照）
 
-v0.1.0 に含まれないもの: real AI translation API、WordPress、RSS、PWA、FTP、n8n、cron、
-plugins、full site import、production automation。
+含まれないもの: real AI translation API、WordPress、RSS、PWA、FTP、n8n、cron、
+plugins、full site import、production deployment automation。
+
+既存プロジェクトのUpgrade: `docs/UPGRADE.md` を参照。
 
 ---
 
@@ -125,7 +133,7 @@ python tools/core/build_site.py --root .
 
 | Repo | Role |
 |---|---|
-| `HADA_Website_Template` | 本リポジトリ — clean v0.1.0 template |
+| `HADA_Website_Template` | 本リポジトリ — v0.1.2 public template |
 | `HADA_Website_Template_Dev` | Development workspace |
 | `HADA_Website_Template_Sample` | Verified example with fictional sample site |
 

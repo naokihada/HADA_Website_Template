@@ -34,3 +34,13 @@ Uses Japanese Content Master (`content/jp/`) and the single term dictionary
 ```text
 python tools/core/build_site.py --root .
 ```
+
+## Template upgrade (v0.1.2+)
+
+Upgrade framework files from a GitHub stable Release while preserving user content:
+
+```text
+python tools/core/upgrade_from_release.py --root .
+```
+
+See `docs/UPGRADE.md` for options, ownership rules, and exit codes.

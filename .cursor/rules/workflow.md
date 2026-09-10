@@ -7,7 +7,7 @@ Canonical source: `AGENTS.md` Task Lifecycle and Core Actions.
 Task → Validate → Analyze → Plan → Approval? → Implement → Test → Scope Check
 → Security Check → Diff Review → Commit
 
-Validation runbook: `docs/VALIDATION.md`
+Validation runbook: `docs/VALIDATION.md`. Template upgrade: `docs/UPGRADE.md`.
 
 ## Modes
 

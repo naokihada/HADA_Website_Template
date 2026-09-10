@@ -1,40 +1,33 @@
 # Tests
 
-Automated tests for framework tools (v0.1.0).
+Automated test definitions for framework tools.
 
-## Purpose
+Record results in `Cursor/reports/TEST.md`.
 
-Verify the core validator, translation pipeline, and build behavior against this repository.
+## Test files (v0.1.2)
 
-## Test suite
-
-| Module | Tests | Focus |
+| File | Tests | Scope |
 |---|---|---|
-| `test_validate_framework.py` | 15 | Validator CLI, rules, JSON output, I18N |
-| `test_translation.py` | 13 | Term dictionary, mock translation, build site |
+| `test_validate_framework.py` | 15 | Framework validator |
+| `test_translation.py` | 13 | Translation pipeline and build |
+| `test_upgrade_from_release.py` | 19 | Template Upgrade engine (offline-safe) |
 
-**Total:** 28 tests.
+**Total: 47 tests** (28 existing + 19 upgrade).
 
 ## Run
 
-From the repository root:
+From repository root:
 
 ```text
 pip install -r tools/core/requirements.txt
 python tests/test_validate_framework.py
 python tests/test_translation.py
+python tests/test_upgrade_from_release.py
 ```
 
-Expected: 28/28 PASS.
+Upgrade tests are **offline-safe** by default (mocked GitHub API). Live GitHub Release
+integration validation is a separate Maintainer step after Public Release (see `docs/RELEASE.md`).
 
 ## Fixtures
 
-- `tests/fixtures/term_dictionary.yaml` — dictionary for unit tests
-- `tests/fixtures/content/jp/` — sample content for build/integration tests
-
-## Validation documentation
-
-Validator rules, severity, exit codes, known baseline, and output format:
-`docs/VALIDATION.md`
-
-Record manual test results in `Cursor/reports/TEST.md` when completing significant work.
+`tests/fixtures/` — shared fixtures for validator and translation tests.
