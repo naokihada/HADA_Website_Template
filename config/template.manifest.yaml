@@ -1,4 +1,4 @@
-# HADA Website Template — machine-readable upgrade contract (v0.1.2)
+# HADA Website Template — machine-readable upgrade contract (v0.1.3)
 # Template version is independent of config/project.yaml → project.version
 
 schema_version: "0.1"
@@ -37,6 +37,10 @@ ownership:
     - "content/README.md"
     - "site/README.md"
     - "site/index.html"
+    - "site/timer.html"
+    - "site/manifest.webmanifest"
+    - "site/sw.js"
+    - "site/assets/timer.js"
     - "site/assets/.gitkeep"
     - "Cursor/README.md"
     - "Cursor/backup/.gitkeep"
@@ -93,5 +97,9 @@ migrations:
       - "0.1.2"
     notes: "Introduces template.manifest.yaml and upgrade_from_release.py"
   "0.1.2":
+    to:
+      - "0.1.3"
+    notes: "Adds the client-only PWA timer demo with best-effort local notifications"
+  "0.1.3":
     to: []
-    notes: "Baseline automated upgrade engine"
+    notes: "Baseline automated upgrade engine plus PWA timer demo"

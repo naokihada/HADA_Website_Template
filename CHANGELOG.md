@@ -2,6 +2,22 @@
 
 All notable **public** changes to HADA Website Template releases.
 
+## [0.1.3] — 2026-09-11
+
+### Added
+
+- Client-only PWA Timer Demo at `site/timer.html`
+- Digital `MM:SS` timer from `00:00` through `99:59`, default `03:00`
+- Web Audio API completion beep
+- Best-effort local notifications through a Service Worker
+- Offline app-shell cache for the timer demo
+- Upgrade migration path: **v0.1.2 → v0.1.3**
+
+### Notes
+
+- No server, database, cron, or external API is required.
+- Notification delivery while the PWA is fully terminated is best-effort and not guaranteed.
+
 ## [0.1.2] — 2026-09-09
 
 ### Added

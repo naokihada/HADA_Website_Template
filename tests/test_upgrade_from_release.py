@@ -10,6 +10,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import re
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
 from unittest import mock
@@ -26,7 +27,7 @@ import upgrade_from_release as ufr  # noqa: E402
 
 
 def write_min_manifest(target: Path, version: str = "0.1.2") -> None:
-    text = MANIFEST.read_text(encoding="utf-8").replace('version: "0.1.2"', f'version: "{version}"')
+    text = re.sub(r'(  version:\s*)"[^"]+"', rf'\g<1>"{version}"', MANIFEST.read_text(encoding="utf-8"), count=1)
     (target / "config").mkdir(parents=True, exist_ok=True)
     (target / "config" / "template.manifest.yaml").write_text(text, encoding="utf-8")
 

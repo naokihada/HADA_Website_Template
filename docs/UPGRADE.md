@@ -40,7 +40,7 @@ Do not use `project.version` as the template version.
 | Mode | Behavior |
 |---|---|
 | Default | Latest **non-prerelease** GitHub Release |
-| Explicit | `--version v0.1.2` |
+| Explicit | `--version v0.1.3` |
 
 Not used as upgrade source: `main`, branch HEAD, unreleased commits, prereleases (as stable default).
 
@@ -58,7 +58,7 @@ python tools/core/upgrade_from_release.py --root .
 Explicit version:
 
 ```text
-python tools/core/upgrade_from_release.py --root . --version v0.1.2
+python tools/core/upgrade_from_release.py --root . --version v0.1.3
 ```
 
 Legacy site without manifest (v0.1.1):
@@ -156,7 +156,13 @@ v0.1.1 sites without manifest: use fingerprint detection or `--assume-version v0
 
 ---
 
-## 13. Troubleshooting
+## 13. v0.1.2 → v0.1.3
+
+Adds the client-only PWA Timer Demo at `site/timer.html`, including Beep audio,
+Service Worker notifications, and an offline app-shell cache. Notification delivery
+after complete PWA termination is best-effort and not guaranteed.
+
+## 14. Troubleshooting
 
 | Issue | Action |
 |---|---|
@@ -167,7 +173,7 @@ v0.1.1 sites without manifest: use fingerprint detection or `--assume-version v0
 
 ---
 
-## 14. Not included
+## 15. Not included
 
 - Web deployment / FTP / production publish
 - Automatic Git commit or push
