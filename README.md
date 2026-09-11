@@ -26,7 +26,7 @@ can operate sites deterministically with audit trails.
 - Markdown → HTML build (`tools/core/build_site.py`)
 - **Template Upgrade** from GitHub stable Release (`tools/core/upgrade_from_release.py`)
 - Template version contract (`config/template.manifest.yaml`)
-- Tests (47 total — see `tests/README.md`)
+- Tests (48 total — see `tests/README.md`)
 
 Included: a client-only PWA Timer Demo with `MM:SS` display, Beep audio, and best-effort local notifications.
 
@@ -106,7 +106,7 @@ AI Agent対応Webサイト運用フレームワーク v0.1.3 公開テンプレ�
 - Markdown → HTML build（`tools/core/build_site.py`）
 - **Template Upgrade**（GitHub stable Release — `tools/core/upgrade_from_release.py`）
 - Template version contract（`config/template.manifest.yaml`）
-- Tests（47 total — `tests/README.md` 参照）
+- Tests（48 total — `tests/README.md` 参照）
 
 含まれるもの: client-only PWA Timer Demo、MM:SS表示、Beep音、best-effort local notification。
 

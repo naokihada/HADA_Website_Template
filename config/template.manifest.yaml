@@ -6,7 +6,7 @@ schema_version: "0.1"
 template:
   id: hada-website-template
   name: HADA Website Operations Framework
-  version: "0.1.2"
+  version: "0.1.3"
   release_repository: naokihada/HADA_Website_Template
 
 ownership:

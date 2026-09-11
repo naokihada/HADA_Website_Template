@@ -19,6 +19,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 TOOLS_CORE = REPO_ROOT / "tools" / "core"
 UPGRADE = TOOLS_CORE / "upgrade_from_release.py"
 MANIFEST = REPO_ROOT / "config" / "template.manifest.yaml"
+RELEASE_MANIFEST = MANIFEST
 
 if str(TOOLS_CORE) not in sys.path:
     sys.path.insert(0, str(TOOLS_CORE))
@@ -206,7 +207,8 @@ class UpgradeMigrationTests(unittest.TestCase):
         self.assertEqual(result.exit_code, ufr.EXIT_BLOCKED)
 
     def test_case_k_network_failure_blocked(self) -> None:
-        site = REPO_ROOT
+        site = self.base / "site"
+        mini_template(site, "0.1.2", "site")
         result = ufr.run_upgrade(
             site,
             network_check=lambda repo: (False, "offline"),
@@ -215,7 +217,8 @@ class UpgradeMigrationTests(unittest.TestCase):
         self.assertEqual(result.status, "BLOCKED")
 
     def test_case_l_invalid_release_blocked(self) -> None:
-        site = REPO_ROOT
+        site = self.base / "site"
+        site.mkdir(parents=True, exist_ok=True)
         write_min_manifest(site, "0.1.2")
         result = ufr.run_upgrade(
             site,
@@ -225,7 +228,8 @@ class UpgradeMigrationTests(unittest.TestCase):
         self.assertEqual(result.status, "BLOCKED")
 
     def test_case_m_prerelease_blocked(self) -> None:
-        site = REPO_ROOT
+        site = self.base / "site"
+        mini_template(site, "0.1.2", "site")
         detection, ver = ufr.detect_version(site)
         if detection == "unknown":
             self.skipTest("need detected version")
@@ -262,6 +266,12 @@ class UpgradeMigrationTests(unittest.TestCase):
         manifest, _ = ufr.load_yaml(MANIFEST)
         assert manifest is not None
         self.assertTrue(ufr.migration_allowed(manifest, "0.1.1", "0.1.2"))
+
+    def test_release_manifest_version_matches_target(self) -> None:
+        manifest, error = ufr.load_yaml(RELEASE_MANIFEST)
+        self.assertIsNone(error)
+        assert manifest is not None
+        self.assertEqual(manifest["template"]["version"], "0.1.3")
 
     def test_case_o_target_git_untouched(self) -> None:
         prev = self.base / "P"
