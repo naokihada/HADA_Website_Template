@@ -1,4 +1,4 @@
-# HADA Website Operations Framework (v0.1.3)
+# HADA Website Operations Framework (v0.2.0)
 
 Agent-operable framework for creating, recovering, migrating, maintaining, testing, and
 releasing websites. This is the **public release template** — start here for a new project.
@@ -15,7 +15,7 @@ A **Web Site Operations Framework** — not a single website. It separates Conte
 processing tools, plugins (capabilities), and the Publication Root so agents and humans
 can operate sites deterministically with audit trails.
 
-## v0.1.3 scope
+## v0.2.0 scope
 
 - Foundation structure and agent contract (`AGENTS.md`)
 - Core Validator (`tools/core/validate_framework.py`)
@@ -26,9 +26,11 @@ can operate sites deterministically with audit trails.
 - Markdown → HTML build (`tools/core/build_site.py`)
 - **Template Upgrade** from GitHub stable Release (`tools/core/upgrade_from_release.py`)
 - Template version contract (`config/template.manifest.yaml`)
-- Tests (48 total — see `tests/README.md`)
+- Tests (54 total — see `tests/README.md`)
 
-Included: a client-only PWA Timer Demo with `MM:SS` display, Beep audio, and best-effort local notifications.
+Included: a client-only PWA Timer Demo with `MM:SS` display, Beep audio, best-effort local notifications, and browser-supported installation UI.
+
+This release replaces the legacy `.cursor/` and `Cursor/` operation workspaces with the agent-neutral `AI/` workspace. Existing consumer projects must preserve and classify legacy contents before migration.
 
 Not included: real AI translation API, WordPress, RSS, broader PWA capabilities, FTP, n8n, cron,
 plugins, full site import, or production deployment automation.
@@ -53,7 +55,7 @@ python tools/core/build_site.py --root .
 
 | Repo | Role |
 |---|---|
-| `HADA_Website_Template` | This repo — v0.1.3 public template |
+| `HADA_Website_Template` | This repo — v0.2.0 public template |
 | `HADA_Website_Template_Dev` | Development workspace |
 | `HADA_Website_Template_Sample` | Verified example with fictional sample site |
 
@@ -65,7 +67,7 @@ For a working example, see `HADA_Website_Template_Sample`.
 - Only `site/` (Publication Root) is deployed by default
 - Read `AGENTS.md` for full security, scope, and deployment rules
 
-See `AGENTS.md` and `Cursor/tasks/CURRENT.md` for agent operations.
+See `AGENTS.md` and `AI/tasks/CURRENT.md` for agent operations.
 
 ## Disclaimer
 
@@ -81,7 +83,7 @@ Webサイトの作成、復旧、移行、保守、テスト、リリースを�
 フレームワークです。本リポジトリは **公開リリーステンプレート（public release template）** であり、
 新規プロジェクトはここから開始してください。
 
-AI Agent対応Webサイト運用フレームワーク v0.1.3 公開テンプレート。
+AI Agent対応Webサイト運用フレームワーク v0.2.0 公開テンプレート。
 
 **動作例:** [HADA_Website_Template_Sample](https://github.com/naokihada/HADA_Website_Template_Sample) — 本テンプレートで構築した架空データによる検証済みサンプルサイト。
 
@@ -95,7 +97,7 @@ AI Agent対応Webサイト運用フレームワーク v0.1.3 公開テンプレ�
 
 ---
 
-## v0.1.3 の範囲
+## v0.2.0 の範囲
 
 - Foundation structure and agent contract（`AGENTS.md`）
 - Core Validator（`tools/core/validate_framework.py`）
@@ -106,7 +108,7 @@ AI Agent対応Webサイト運用フレームワーク v0.1.3 公開テンプレ�
 - Markdown → HTML build（`tools/core/build_site.py`）
 - **Template Upgrade**（GitHub stable Release — `tools/core/upgrade_from_release.py`）
 - Template version contract（`config/template.manifest.yaml`）
-- Tests（48 total — `tests/README.md` 参照）
+- Tests（54 total — `tests/README.md` 参照）
 
 含まれるもの: client-only PWA Timer Demo、MM:SS表示、Beep音、best-effort local notification。
 
@@ -137,7 +139,7 @@ python tools/core/build_site.py --root .
 
 | Repo | Role |
 |---|---|
-| `HADA_Website_Template` | 本リポジトリ — v0.1.3 public template |
+| `HADA_Website_Template` | 本リポジトリ — v0.2.0 public template |
 | `HADA_Website_Template_Dev` | Development workspace |
 | `HADA_Website_Template_Sample` | Verified example with fictional sample site |
 
@@ -151,7 +153,7 @@ python tools/core/build_site.py --root .
 - Only `site/`（Publication Root）is deployed by default
 - 完全な security / scope / deployment rules は `AGENTS.md` を参照
 
-Agent operations の開始点: `AGENTS.md` および `Cursor/tasks/CURRENT.md`。
+Agent operations の開始点: `AGENTS.md` および `AI/tasks/CURRENT.md`。
 
 ---
 

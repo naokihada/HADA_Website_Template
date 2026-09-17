@@ -2,15 +2,16 @@
 
 Human-facing documentation for the HADA Website Operations Framework.
 
+Architecture and implementation specification: root `SPEC.md` (Master Specification).
+
 Agent-independent operation framework: `AGENTS.md`
 
-Core tools and validator: `tools/README.md`
+Repository Release runbook (Dev Maintainer, Dev only): `docs/RELEASE.md`
 
-Public validation and testing: `docs/VALIDATION.md`
+Template Upgrade implementation design (Dev only): `docs/UPGRADE_ARCHITECTURE.md`
 
-Template Upgrade: `docs/UPGRADE.md`
+Public Upgrade guide (also shipped at Release): `docs/UPGRADE.md`
 
-Complete Master Implementation Specification: development repository only
-(`HADA_Website_Template_Dev` — not included in this public template).
+Per-release record template: `AI/reports/RELEASE.md`
 
-Cursor adapter: `.cursor/rules/`
+Agent-neutral workspace: `AI/`

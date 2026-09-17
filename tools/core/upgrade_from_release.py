@@ -18,6 +18,8 @@ import uuid
 import urllib.error
 import urllib.request
 import zipfile
+import template_base
+import file_transaction as tx
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -160,16 +162,10 @@ def read_file_bytes(path: Path) -> Optional[bytes]:
 
 
 def safe_resolve(root: Path, rel: str) -> Optional[Path]:
-    rel = rel.replace("\\", "/").lstrip("/")
-    if ".." in rel.split("/"):
-        return None
-    target = (root / rel).resolve()
-    root_res = root.resolve()
     try:
-        target.relative_to(root_res)
+        return tx.safe(root, rel)
     except ValueError:
         return None
-    return target
 
 
 def iter_repo_files(root: Path) -> Iterable[str]:
@@ -240,6 +236,14 @@ def classify_path(rel_path: str, template: List[str], user: List[str], generated
 
 
 def detect_version(site_root: Path, assume_version: Optional[str] = None) -> Tuple[str, Optional[str]]:
+    try:
+        base = template_base.check(site_root)
+        if base is not None:
+            if assume_version and normalize_version(assume_version) != base['Version']:
+                return 'unknown', None
+            return 'detected', base['Version']
+    except (ValueError, KeyError, TypeError, OSError):
+        return 'unknown', None
     if assume_version:
         return "assumed", normalize_version(assume_version)
 
@@ -275,6 +279,8 @@ def migration_allowed(manifest: Dict[str, Any], from_ver: str, to_ver: str) -> b
 def three_way_action(p: Optional[bytes], c: Optional[bytes], n: Optional[bytes]) -> Action:
     exists_p, exists_c, exists_n = p is not None, c is not None, n is not None
     if exists_n and not exists_p:
+        if exists_c:
+            return Action.SKIP if c == n else Action.REVIEW
         return Action.ADD
     if exists_p and not exists_n:
         if exists_c and c == p:
@@ -372,6 +378,8 @@ def build_plan(
     findings: List[Finding] = []
 
     for rel in sorted(paths):
+        if rel == 'TEMPLATE_BASE.md':
+            continue  # Adoption metadata is finalized only after verification.
         kind = classify_path(rel, template_globs, user_globs, generated_globs)
         if kind == "user":
             continue
@@ -452,7 +460,7 @@ def apply_plan(site_root: Path, new_root: Path, plan: List[PlanItem], dry_run: b
                 None,
                 read_file_text(c_path) if c_path else "",
                 n_path.read_text(encoding="utf-8"),
-                ["project.name", "project.mode"],
+                ["project", "paths"],
             )
             if err:
                 continue
@@ -714,7 +722,64 @@ def run_upgrade(
     has_review = any(item.action == Action.REVIEW for item in plan)
     applied: List[str] = []
     if not has_review:
-        applied = apply_plan(root, new_root, plan, dry_run=dry_run)
+        if dry_run:
+            applied = []
+        else:
+            if prev_root is None:
+                return UpgradeResult('BLOCKED', EXIT_BLOCKED, str(root.resolve()), current_ver,
+                    detection, target_ver, target_tag, temp_path,
+                    findings=[Finding('UPG-053', 'ERROR', 'Previous template is required for safe apply')])
+            # Missing verification is a failure, never implicit adoption success.
+            required = root / 'tools/core/validate_framework.py'
+            if not required.is_file():
+                return UpgradeResult('BLOCKED', EXIT_BLOCKED, str(root.resolve()), current_ver,
+                    detection, target_ver, target_tag, temp_path, plan=plan,
+                    findings=[Finding('UPG-051', 'ERROR', 'Required framework validator missing')])
+            if any((root / name).exists() for name in ('.cursor', 'Cursor')):
+                return UpgradeResult('REVIEW_REQUIRED', EXIT_REVIEW, str(root.resolve()), current_ver,
+                    detection, target_ver, target_tag, temp_path, plan=plan,
+                    findings=[Finding('UPG-052', 'WARNING', 'Legacy workspace requires classified, backed-up migration before apply')])
+            # Verify candidate in isolation; never rebuild styled output in the consumer.
+            candidate = Path(tempfile.mkdtemp(prefix='hada-upgrade-verify-'))
+            snapshots = {i.rel_path: tx.digest(tx.safe(root, i.rel_path)) for i in plan
+                if i.action in (Action.AUTO, Action.ADD, Action.REMOVE)}
+            snapshots['TEMPLATE_BASE.md'] = tx.digest(tx.safe(root, 'TEMPLATE_BASE.md'))
+            shutil.copytree(root, candidate, dirs_exist_ok=True,
+                ignore=shutil.ignore_patterns('.git', 'AI', '__pycache__', '.venv', 'node_modules'))
+            (candidate / 'AI').mkdir(exist_ok=True)
+            apply_plan(candidate, new_root, plan, dry_run=False)
+            (candidate / 'TEMPLATE_BASE.md').write_text(template_base.render(template_base.from_manifest(manifest)), encoding='utf-8')
+            commands = [[sys.executable, str(candidate / 'tools/core/validate_framework.py'), '--root', str(candidate)]]
+            commands += [[sys.executable, str(p)] for p in sorted((candidate / 'tests').glob('test_*.py'))]
+            commands += [[sys.executable, str(candidate / 'tools/core/build_site.py'), '--root', str(candidate)]]
+            for command in commands:
+                checked = subprocess.run(command, cwd=candidate, capture_output=True)
+                if checked.returncode:
+                    return UpgradeResult('FAILED', EXIT_FAILED, str(root.resolve()), current_ver,
+                        detection, target_ver, target_tag, str(candidate), plan=plan,
+                        findings=[Finding('UPG-051', 'ERROR', 'Candidate verification failed: ' + Path(command[1]).name)])
+            # Candidate build output is verification only, never copied over styled output.
+            operations = []
+            for item in plan:
+                if item.action not in (Action.AUTO, Action.ADD, Action.REMOVE): continue
+                data = None if item.action == Action.REMOVE else tx.safe(new_root, item.rel_path).read_bytes()
+                if item.rel_path == 'config/project.yaml' and 'yaml merge' in item.reason:
+                    merged, error = yaml_merge_project(None, read_file_text(root / item.rel_path), data.decode(), ['project', 'paths'])
+                    if error: raise ValueError(error)
+                    data = merged.encode()
+                operation = tx.entry(root, item.rel_path, data)
+                operation['before'] = snapshots[item.rel_path]
+                operations.append(operation)
+            base_operation = tx.entry(root, 'TEMPLATE_BASE.md', template_base.render(template_base.from_manifest(manifest)).encode())
+            base_operation['before'] = snapshots['TEMPLATE_BASE.md']
+            operations.append(base_operation)
+            operations.sort(key=lambda e: e['path'] in ('config/template.manifest.yaml', 'TEMPLATE_BASE.md'))
+            try:
+                applied = tx.apply(root, operations, root / 'AI/history' / ('upgrade-' + uuid.uuid4().hex))
+            except (ValueError, OSError) as exc:
+                return UpgradeResult('REVIEW_REQUIRED', EXIT_REVIEW, str(root.resolve()), current_ver,
+                    detection, target_ver, target_tag, str(candidate), plan=plan,
+                    findings=[Finding('UPG-054', 'ERROR', str(exc))])
     else:
         findings.append(Finding("UPG-020", "WARNING", "Migration plan contains REVIEW_REQUIRED items"))
 

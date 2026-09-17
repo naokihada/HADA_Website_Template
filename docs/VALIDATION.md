@@ -1,12 +1,12 @@
 # Public Validation Documentation
 
-Public validation and test runbook for `HADA_Website_Template` (v0.1.0).
+Public validation and test runbook for `HADA_Website_Template` (v0.2.0).
 
 This document is **not** a Master Implementation Specification. The complete master
 specification exists in the development repository only (`HADA_Website_Template_Dev`) and
 is not shipped with this public template.
 
-**Runtime authority:** `tools/core/validate_framework.py` (core-validator v0.1) and the
+**Runtime authority:** `tools/core/validate_framework.py` (core-validator v0.2) and the
 test modules under `tests/`. This document explains how to run and interpret them.
 
 ---
@@ -50,9 +50,16 @@ Run the test suite:
 ```text
 python tests/test_validate_framework.py
 python tests/test_translation.py
+python tests/test_upgrade_from_release.py
+python tests/test_pwa_timer.py
+python tests/test_template_base.py
+python tests/test_file_transaction.py
+python tests/test_legacy_workspace.py
 ```
 
-**Expected result:** 28 tests PASS (15 validator + 13 translation).
+Record actual results for all available tests. `TEMPLATE_BASE.md` is checked only when
+present; an absent Base supports legacy detection. Build styled Sample output in an
+isolated copy.
 
 Tests use Python stdlib `unittest`. PyYAML and `markdown` are required for code under test.
 
@@ -120,7 +127,7 @@ Rule IDs help interpret validator output. Findings are sorted by `(rule_id, file
 | STRUCT-001 | ERROR | `AGENTS.md` exists at repository root |
 | STRUCT-002 | ERROR | `README.md` exists |
 | STRUCT-003 | ERROR | `.gitignore` exists |
-| STRUCT-004 | ERROR | `Cursor/` directory exists |
+| STRUCT-004 | ERROR | `AI/` directory exists |
 | STRUCT-005 | ERROR | `content/en/` exists |
 | STRUCT-006 | ERROR | `content/jp/` exists |
 | STRUCT-007 | ERROR | `site/` exists |
@@ -137,8 +144,6 @@ Rule IDs help interpret validator output. Findings are sorted by `(rule_id, file
 | STRUCT-018 | ERROR | `tests/` exists |
 | STRUCT-019 | ERROR | `docs/` exists |
 | STRUCT-020 | ERROR | `config/` exists |
-| STRUCT-021 | ERROR | `.cursor/rules/` exists |
-| STRUCT-022 | WARNING | Fewer than 8 files in `.cursor/rules/` |
 | STRUCT-023 | ERROR | `paths.publication_root` from `config/project.yaml` resolves to an existing directory |
 
 ### CFG-* (configuration)
@@ -236,7 +241,7 @@ Pattern-based checks on committed YAML under `config/`, `environments/`, `refere
 | SEC-005 | WARNING | `.env` or `config/local.yaml` tracked by Git |
 | SEC-006 | INFO | `config/local.yaml` exists locally (with `--include-local`) |
 
-**Forbidden path segments:** `Cursor`, `content`, `tools`, `config`, `references`, `docs`, `.cursor`
+**Forbidden path segments (case insensitive):** `AI`, `Cursor`, `content`, `tools`, `config`, `references`, `docs`, `.cursor`
 
 **Safe placeholder values (SEC-001):** empty, `null`, `none`, `~`, `""`, `''`, `<secret>`, `redacted`, `example`
 

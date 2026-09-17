@@ -1,5 +1,12 @@
 # AGENTS.md — HADA Website Operations Framework
 
+## Text File Line Endings
+
+Coding-agent related files and repository text files must use CRLF line endings.
+This includes Markdown, plain text, Python, YAML, JSON, HTML, CSS, JavaScript,
+web manifests, Git configuration files, and operational records. Binary files are
+excluded. New or edited text files must be checked for CRLF before release.
+
 **Agent-independent operation framework** for this repository. Applies to any AI coding
 agent (Cursor, Claude Code, Codex, CLI, CI, or other) unless a task explicitly overrides.
 
@@ -7,13 +14,16 @@ agent (Cursor, Claude Code, Codex, CLI, CI, or other) unless a task explicitly o
 |---|---|
 | **`AGENTS.md`** (this file) | How agents operate safely — workflow, scope, Git, approval, reporting |
 | **`SPEC.md`** | What the template is — implementation, architecture, invariants, lifecycles (Dev only) |
-| **`Cursor/`** | Temporary project operation — tasks, reports, logs, state (not Content Master) |
-| **`.cursor/rules/`** | Cursor adapter only — must not contradict `AGENTS.md` or redefine `SPEC.md` |
+| **`AI/`** | Agent-neutral project operation — tasks, reports, logs, state, history (not Content Master) |
+| **Legacy migration** | Existing consumers migrate retired `.cursor/` and `Cursor/` locations into `AI/` after preservation and classification |
 | **`docs/UPGRADE.md`** | Public Upgrade Contract (Public Release only; not in Dev) |
 | **`docs/RELEASE.md`** | Dev Maintainer runbook — Dev → Public extraction (Dev only) |
 
-**Future:** `AI/` may supersede `Cursor/` as the agent-neutral operation workspace name.
-Until then, `Cursor/` is the operation workspace path in this repository.
+`AI/` is the agent-neutral operation workspace for current releases.
+
+`TEMPLATE_BASE.md` records the current adopted template after verification, without
+commit SHA or execution history. This repository produces the Public artifact; Dev-only
+SPEC and internal reports are not shipped here.
 
 Do **not** copy agent-independent rules into `.cursor/rules/` or agent-specific configs.
 Do **not** copy template implementation detail from `SPEC.md` into this file.
@@ -43,7 +53,7 @@ ownership, and lifecycles: **`SPEC.md`**. Do not duplicate here.
 Agent-relevant deploy boundary only:
 
 - **Publication Root** (`site/` by default) — only this tree is Web-published.
-- Never deploy `Cursor/`, `content/`, `tools/`, `references/`, `environments/`, `docs/`,
+- Never deploy `AI/`, `content/`, `tools/`, `references/`, `environments/`, `docs/`,
   or `config/` to a production web document root unless explicitly instructed for a
   non-production purpose.
 
@@ -61,8 +71,7 @@ Agent-relevant deploy boundary only:
 |---|---|
 | `SPEC.md` | Template implementation specification (Dev only; not in Public Release) |
 | `AGENTS.md` | Agent-independent operation framework (this file) |
-| `.cursor/rules/` | Cursor adapter — not canonical |
-| `Cursor/` | Operation workspace (tasks, reports, logs, state); in Public Git scaffold; excluded from Web Publish (`SPEC.md` §1.6) |
+| `AI/` | Agent-neutral operation workspace; excluded from Web Publish |
 | `config/template.manifest.yaml` | Template version and upgrade ownership (Public from v0.1.2; `SPEC.md` §1.7) |
 | `content/` | Content Master by locale (`en/`, `jp/`) |
 | `site/` | Publication Root — deployable web output |
@@ -85,7 +94,7 @@ implementation invariants. It does **not** replace this agent operation framewor
 **Do not:**
 
 - Create `SPEC_LITE.md`, `tools/core/SPEC.md`, or other master specification files
-- Treat `AGENTS.md`, README, or `Cursor/` reports as implementation specification
+- Treat `AGENTS.md`, README, or `AI/` reports as implementation specification
 - Duplicate `SPEC.md` implementation detail in `AGENTS.md` — reference the section instead
 - Duplicate agent safety/workflow rules in `SPEC.md` — reference `AGENTS.md` instead
 
@@ -155,7 +164,7 @@ Template Upgrade engine exit codes (`SUCCESS`, `REVIEW_REQUIRED`, `BLOCKED`, `FA
 
 | Permanent (repository) | Temporary (operation workspace) |
 |---|---|
-| `SPEC.md`, `AGENTS.md`, `tools/`, `tests/`, `config/` examples | `Cursor/tasks/`, `Cursor/reports/`, `Cursor/logs/`, `Cursor/state/` |
+| `SPEC.md`, `AGENTS.md`, `tools/`, `tests/`, `config/` examples | `AI/tasks/`, `AI/reports/`, `AI/logs/`, `AI/state/`, `AI/history/` |
 | Public docs (`docs/VALIDATION.md`, `docs/UPGRADE.md` on Release) | Session analysis, chat handoff notes |
 | Implementation code | Upgrade temp clone paths (retained; `SPEC.md` §1.7) |
 
@@ -265,7 +274,7 @@ Release Candidate checks (minimum):
 
 **AI agents must not** commit, push, tag, or create GitHub Releases on
 `HADA_Website_Template` without explicit human instruction. Record each release in
-`Cursor/reports/RELEASE.md` (template); follow `docs/RELEASE.md` for the runbook.
+`AI/reports/RELEASE.md` (template); follow the release documentation for the runbook.
 
 ### Role B — Public Template User
 
@@ -310,6 +319,16 @@ Validate site → Network test → Resolve Release → Detect version → Temp c
 
 ---
 
+## Legacy agent workspace migration
+
+During a Template Upgrade, inspect the consumer project for retired `.cursor/` and
+`AI/` locations. Before removal, preserve SPEC/manifest/affected-file history,
+classify legacy contents, migrate useful reports and history to `AI/history/`, and
+record the migration plan. Do not activate obsolete adapter rules. Remove legacy
+directories only after the plan is reviewed. Then create or update `AI/` and run
+ReSPEC, tests, validator, build, security, and diff review. Unclear ownership or
+meaning is `REVIEW_REQUIRED`; never delete blindly.
+
 ## Task Lifecycle
 
 Standard workflow (all roles; adapt gates to task):
@@ -320,7 +339,7 @@ Task → Validate → Analyze → Plan → Approval?
   → Commit / Release (human or explicit instruction only)
 ```
 
-Track active work in `Cursor/tasks/CURRENT.md`. Backlog in `BACKLOG.md`. Completed
+Track active work in `AI/tasks/CURRENT.md`. Backlog in `AI/tasks/BACKLOG.md`. Completed
 items move through `TODO.md` or changelog as appropriate.
 
 Before `Implement`:
@@ -332,7 +351,7 @@ Before `Implement`:
 Before `Release` (Repository Release — Role A):
 
 - Follow `docs/RELEASE.md` pre-release validation and extraction checklist.
-- All required tests and checks documented in `Cursor/reports/` (TEST.md, SECURITY.md).
+- All required tests and checks documented in `AI/reports/` (TEST.md, SECURITY.md).
 - Public safety review complete per `SPEC.md` §1.5.
 - Human approval obtained before any commit/push/tag on `HADA_Website_Template`.
 
@@ -386,7 +405,7 @@ Preflight → Backup → Apply → Verify → Commit (if explicitly instructed)
 ```
 
 - Do not create plugin directories without a written specification and `manifest.yaml`.
-- Plugin logs: `Cursor/logs/`, `Cursor/state/`, `Cursor/reports/` — not inside plugin dir.
+- Plugin logs: `AI/logs/`, `AI/state/`, `AI/reports/` — not inside plugin dir.
 - **Disable** and **Uninstall** are different operations.
 
 ---
@@ -407,9 +426,9 @@ Agent rules:
 ## Testing Rules
 
 - Tests live under `tests/` and may be invoked from `tools/core/`.
-- Record results in `Cursor/reports/TEST.md` or linked report files.
+- Record results in `AI/reports/TEST.md` or linked report files.
 - `VERIFY` checks may be read-only; `TEST` may mutate fixtures in non-production paths only.
-- Security checks documented in `Cursor/reports/SECURITY.md` before release candidates.
+- Security checks documented in `AI/reports/SECURITY.md` before release candidates.
 
 ---
 
@@ -435,7 +454,7 @@ without explicit configuration and human approval.
 Web Publish (Role C) — distinct from Repository Release (Role A). See `SPEC.md` §1.6.
 
 - Deployment target is **Publication Root only** (`site/` by default).
-- Never deploy `Cursor/`, `content/`, `tools/`, `references/`, `environments/`, `docs/`,
+- Never deploy `AI/`, `content/`, `tools/`, `references/`, `environments/`, `docs/`,
   or `config/` to production web document root.
 - FTP and other deployment adapters (Future) deploy publication content, not the full repository.
 - STAGING and PRODUCTION require named environment config and human approval.
@@ -453,18 +472,18 @@ Required before:
 - Destructive operations on Content Master or external references
 - Enabling plugins that mutate live external systems (WordPress.com, cron, n8n)
 
-Record Repository Release approval in `Cursor/reports/RELEASE.md` (template). Maintainer
+Record Repository Release approval in `AI/reports/RELEASE.md` (template). Maintainer
 procedure: `docs/RELEASE.md`.
 
 ---
 
 ## Logging
 
-- Operational logs: `Cursor/logs/`
-- Persistent state: `Cursor/state/`
-- Human-readable reports: `Cursor/reports/`
-- Inventories and audits: `Cursor/inventory/`
-- Change history: `Cursor/changelog/`
+- Operational logs: `AI/logs/`
+- Persistent state: `AI/state/`
+- Human-readable reports: `AI/reports/`
+- Inventories and audits: `AI/inventory/`
+- Change history: `AI/changelog/`
 
 Use structured, factual entries. Separate **fact**, **unverified**, and **inference**.
 
@@ -475,7 +494,7 @@ Use structured, factual entries. Separate **fact**, **unverified**, and **infere
 On failure:
 
 1. Stop the current automated step.
-2. Record the error in `Cursor/logs/` or the active report.
+2. Record the error in `AI/logs/` or the active report.
 3. Do not commit partial or broken foundation changes.
 4. Do not push if diff contains secrets, unexpected deletions, or unrelated changes.
 5. Report `BLOCKED` or `NEEDS_REVIEW` with concrete next steps.
@@ -519,7 +538,7 @@ A task is complete when:
 - Requested scope is implemented within declared mode and phase.
 - Tests and checks specified for the task have passed or are explicitly deferred with reason.
 - Diff is limited to intended files; no secrets present.
-- `Cursor/tasks/CURRENT.md` and relevant reports are updated.
+- `AI/tasks/CURRENT.md` and relevant reports are updated.
 - Human approval obtained if required.
 - Git status is clean or commit message accurately describes remaining intentional state.
 

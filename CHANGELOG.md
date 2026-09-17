@@ -2,6 +2,23 @@
 
 All notable **public** changes to HADA Website Template releases.
 
+## [0.2.0] — 2026-09-17
+
+### Changed
+
+- Replaced the agent-operation workspace convention of `.cursor/` and `Cursor/` with the agent-neutral `AI/` workspace
+- Updated validator and repository structure expectations to require `AI/` and keep it outside the Web Publish boundary
+- Added the documented legacy workspace migration procedure for existing consumer projects
+- Added required upgrade checkpoints: preserve SPEC/manifest/affected-file history, classify legacy contents, migrate useful history to `AI/history/`, then run ReSPEC, tests, validator, build, security, and diff review
+- Undefined ownership, migration meaning, or legacy content is now explicitly `REVIEW_REQUIRED`; agents must not guess or delete blindly
+- Added migration path: **v0.1.3 → v0.2.0**
+
+### Upgrade Notes
+
+- `config/project.yaml` → `project.version` remains site-project metadata and is not changed by this Template version upgrade
+- Existing `.cursor/` and `Cursor/` directories belong to the consumer project migration process; they are not part of the v0.2.0 Template artifact
+- Preserve useful historical evidence in `AI/history/` before removing legacy directories
+
 ## [0.1.3] — 2026-09-11
 
 ### Added
@@ -45,8 +62,8 @@ All notable **public** changes to HADA Website Template releases.
 ### Added
 
 - Public validation guide (`docs/VALIDATION.md`)
-- Public-safe `Cursor/reports/` scaffold
-- Clarified Cursor/ in Git vs Web Publish boundary
+- Agent-neutral `AI/` workspace and handoff boundary
+- Clarified internal AI workspace versus Web Publish boundary
 
 ### Removed
 

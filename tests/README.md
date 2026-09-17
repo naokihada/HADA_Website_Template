@@ -2,9 +2,9 @@
 
 Automated test definitions for framework tools.
 
-Record results in `Cursor/reports/TEST.md`.
+Record results in `AI/reports/TEST.md`.
 
-## Test files (v0.1.3)
+## Test files (v0.2.0)
 
 | File | Tests | Scope |
 |---|---|---|

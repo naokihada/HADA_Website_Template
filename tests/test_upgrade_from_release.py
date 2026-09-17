@@ -267,11 +267,16 @@ class UpgradeMigrationTests(unittest.TestCase):
         assert manifest is not None
         self.assertTrue(ufr.migration_allowed(manifest, "0.1.1", "0.1.2"))
 
+    def test_v013_to_v020_migration_allowed(self) -> None:
+        manifest, _ = ufr.load_yaml(MANIFEST)
+        assert manifest is not None
+        self.assertTrue(ufr.migration_allowed(manifest, "0.1.3", "0.2.0"))
+
     def test_release_manifest_version_matches_target(self) -> None:
         manifest, error = ufr.load_yaml(RELEASE_MANIFEST)
         self.assertIsNone(error)
         assert manifest is not None
-        self.assertEqual(manifest["template"]["version"], "0.1.3")
+        self.assertEqual(manifest["template"]["version"], "0.2.0")
 
     def test_case_o_target_git_untouched(self) -> None:
         prev = self.base / "P"
