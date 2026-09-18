@@ -2,6 +2,16 @@
 
 All notable **public** changes to HADA Website Template releases.
 
+## [0.2.1] — 2026-09-17
+
+### Changed
+
+- Added the common machine-readable manifest schema
+- Added `manifest_version`, `template.release`, compatibility metadata, repository metadata, and `files.template_base`
+- Added manifest/Base consistency validation and regression tests
+- Preserved `schema_version` and `data_format_version` at `0.1`
+- Added the `0.2.0 → 0.2.1` migration path
+
 ## [0.2.0] — 2026-09-17
 
 ### Changed
