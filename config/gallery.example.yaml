@@ -1,0 +1,13 @@
+schema_version: "0.1"
+
+gallery:
+  enabled: true
+  route: gallery
+  title:
+    jp: "Background Gallery"
+    en: "Background Gallery"
+  include:
+    usage: gallery
+    status: approved
+  show_details: true
+  show_credits: true

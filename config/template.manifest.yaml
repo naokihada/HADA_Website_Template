@@ -1,4 +1,4 @@
-# HADA Website Template — machine-readable upgrade contract (v0.2.2)
+# HADA Website Template — machine-readable upgrade contract (v0.3.0)
 # Template version is independent of config/project.yaml → project.version
 
 manifest_version: "1.0"
@@ -8,8 +8,8 @@ schema_version: "0.1"
 template:
   id: hada-website-template
   name: HADA Website Operations Framework
-  version: "0.2.2"
-  release: "v0.2.2"
+  version: "0.3.0"
+  release: "v0.3.0"
   release_repository: naokihada/HADA_Website_Template
 
 compatibility:
@@ -42,6 +42,9 @@ ownership:
     - "config/template.manifest.yaml"
     - "config/project.yaml"
     - "config/site.example.yaml"
+    - "config/media.manifest.example.yaml"
+    - "config/image-generation.example.yaml"
+    - "config/gallery.example.yaml"
     - "config/local.example.yaml"
     - "config/term_dictionary.example.yaml"
     - "environments/environments.example.yaml"
@@ -58,6 +61,7 @@ ownership:
     - "site/assets/.gitkeep"
     - "AI/README.md"
     - "tools/core/upgrade_from_release.py"
+    - "tools/core/assets.py"
   user:
     - "TEMPLATE_BASE.md"
     - "TEMPLATE_UPDATES.md"
@@ -81,10 +85,17 @@ ownership:
     - "AI/inventory/**"
     - "AI/changelog/**"
     - "AI/screenshots/**"
+    - "assets/images/master/**"
+    - "assets/images/thumbnails/**"
+    - "assets/metadata/images/**"
+    - "config/image-generation.yaml"
+    - "config/media.manifest.yaml"
+    - "config/gallery.yaml"
   generated:
     - "content/en/**"
     - "site/en/**"
     - "site/jp/**"
+    - "assets/images/web/**"
 
 merge_policies:
   config/project.yaml:
@@ -119,5 +130,9 @@ migrations:
       - "0.2.2"
     notes: "Adds built-in block-aware i18n master pipeline and arbitrary locale validation"
   "0.2.2":
+    to:
+      - "0.3.0"
+    notes: "Adds persistent image metadata, thumbnails, gallery generation, and page-scoped visual library support"
+  "0.3.0":
     to: []
-    notes: "Current baseline with built-in i18n master pipeline"
+    notes: "Current baseline with generated image gallery support"

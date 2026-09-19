@@ -2,6 +2,23 @@
 
 All notable **public** changes to HADA Website Template releases.
 
+## [0.3.0] — 2026-09-19
+
+### Added
+
+- Added manifest-driven multilingual image gallery index and detail pages
+- Added PNG master, Web JPEG, thumbnail, and persistent provenance workflow
+- Added page-scoped background image reuse and non-destructive image replacement
+- Added configurable image-generation and gallery settings
+- ChatGPT Image remains the default provider while manual and future providers
+  remain supported by the asset schema
+
+### Compatibility
+
+- Existing image IDs remain stable and can be restored after page replacement
+- Legacy `AI/history` provenance can be migrated without deletion
+- Gallery output never exposes PNG master paths
+
 ## [0.2.2] — 2026-09-19
 
 ### Added
