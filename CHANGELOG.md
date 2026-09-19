@@ -2,22 +2,21 @@
 
 All notable **public** changes to HADA Website Template releases.
 
-## [0.3.0] — 2026-09-19
+## [0.3.1] — 2026-09-19
 
 ### Added
 
-- Added manifest-driven multilingual image gallery index and detail pages
-- Added PNG master, Web JPEG, thumbnail, and persistent provenance workflow
-- Added page-scoped background image reuse and non-destructive image replacement
-- Added configurable image-generation and gallery settings
-- ChatGPT Image remains the default provider while manual and future providers
-  remain supported by the asset schema
+- Added explicit Page Registry support for Markdown and HTML Masters
+- Added safe preservation of existing locale HTML files
+- Added isolated candidate build output
+- Added release reference snapshots and deterministic tree parity checks
+- Added `OUTDATED` and `REVIEW_REQUIRED` upgrade states for HTML Master pages
 
 ### Compatibility
 
-- Existing image IDs remain stable and can be restored after page replacement
-- Legacy `AI/history` provenance can be migrated without deletion
-- Gallery output never exposes PNG master paths
+- Markdown Master remains the default
+- `config/project.yaml` `project.version` remains independent
+- Existing publication roots remain supported
 
 ## [0.2.2] — 2026-09-19
 
@@ -117,3 +116,21 @@ All notable **public** changes to HADA Website Template releases.
 
 - Core validator, build pipeline, minimal i18n (jp/en)
 - Foundation directory structure and tests
+## [0.3.0] - 2026-09-19
+
+### Added
+
+- Added a persistent image asset library with PNG masters, JPEG web derivatives,
+  thumbnails, provenance, and configurable generation profiles.
+- Added generated gallery index and image detail pages from the approved media
+  manifest.
+- Added page-scoped background visuals that can be reused in the gallery.
+- Added non-destructive image replacement by immutable `image_id` values.
+- Added Sample-site gallery validation and four-image demonstration coverage.
+
+### Compatibility
+
+- ChatGPT Image remains the default provider, but provider and prompt profiles
+  are user-configurable.
+- Existing images remain valid; legacy `AI/history` provenance can be copied to
+  persistent metadata without deletion.

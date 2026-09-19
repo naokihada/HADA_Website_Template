@@ -1,4 +1,4 @@
-# HADA Website Template — machine-readable upgrade contract (v0.3.0)
+# HADA Website Template — machine-readable upgrade contract (v0.3.1)
 # Template version is independent of config/project.yaml → project.version
 
 manifest_version: "1.0"
@@ -8,8 +8,8 @@ schema_version: "0.1"
 template:
   id: hada-website-template
   name: HADA Website Operations Framework
-  version: "0.3.0"
-  release: "v0.3.0"
+  version: "0.3.1"
+  release: "v0.3.1"
   release_repository: naokihada/HADA_Website_Template
 
 compatibility:
@@ -45,6 +45,7 @@ ownership:
     - "config/media.manifest.example.yaml"
     - "config/image-generation.example.yaml"
     - "config/gallery.example.yaml"
+    - "config/page-registry.example.yaml"
     - "config/local.example.yaml"
     - "config/term_dictionary.example.yaml"
     - "environments/environments.example.yaml"
@@ -62,6 +63,9 @@ ownership:
     - "AI/README.md"
     - "tools/core/upgrade_from_release.py"
     - "tools/core/assets.py"
+    - "tools/core/page_registry.py"
+    - "tools/core/tree_parity.py"
+    - "tools/core/release_snapshot.py"
   user:
     - "TEMPLATE_BASE.md"
     - "TEMPLATE_UPDATES.md"
@@ -134,5 +138,9 @@ migrations:
       - "0.3.0"
     notes: "Adds persistent image metadata, thumbnails, gallery generation, and page-scoped visual library support"
   "0.3.0":
+    to:
+      - "0.3.1"
+    notes: "Adds HTML Master registry, isolated candidate build, release snapshots, and tree parity checks"
+  "0.3.1":
     to: []
-    notes: "Current baseline with generated image gallery support"
+    notes: "Current baseline with safe HTML Master upgrade support"

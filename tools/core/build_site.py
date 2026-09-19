@@ -26,6 +26,7 @@ from term_dictionary import load_term_dictionary  # noqa: E402
 from translation_provider import MockTranslationProvider, translate_with_dictionary  # noqa: E402
 from i18n_pipeline import master_files, parse_blocks, snapshot_path, source_hash, translate_blocks  # noqa: E402
 from assets import load_manifest, safe_relative, validate_assets  # noqa: E402
+from page_registry import build_html_masters  # noqa: E402
 
 MASTER_LOCALE = "jp"
 TARGET_LOCALE = "en"
@@ -143,7 +144,7 @@ def translate_jp_file(
     return "\n".join(translated_lines) + trailing_newline
 
 
-def build_master_pages(root: Path, provider: MockTranslationProvider) -> None:
+def build_master_pages(root: Path, provider: MockTranslationProvider, publication_override: Optional[Path] = None) -> None:
     """Build locale snapshots and minimal HTML from *_master.md sources."""
     if yaml is None or markdown is None:
         raise RuntimeError(dependency_error_message())
@@ -156,10 +157,14 @@ def build_master_pages(root: Path, provider: MockTranslationProvider) -> None:
     pages_root = root / "content" / "pages"
     if not pages_root.is_dir() or not master_files(root):
         return
-    output_root = (root / publication).resolve()
+    output_root = publication_override.resolve() if publication_override else (root / publication).resolve()
     if output_root == root.resolve() or not output_root.is_relative_to(root.resolve()):
         raise ValueError("Publication root must be inside the project")
     entries = load_term_dictionary(root / "config" / "term_dictionary.yaml")
+    generated_snapshot_root = None
+    if publication_override:
+        generated_root = ((config or {}).get("paths") or {}).get("generated_root", "build")
+        generated_snapshot_root = (root / generated_root / "content" / "pages").resolve()
 
     for master_path in master_files(root):
         master_text = master_path.read_text(encoding="utf-8")
@@ -177,6 +182,8 @@ def build_master_pages(root: Path, provider: MockTranslationProvider) -> None:
 
         for locale in locales:
             target_path = snapshot_path(master_path, locale)
+            if generated_snapshot_root:
+                target_path = generated_snapshot_root / target_path.name
             existing = target_path.read_text(encoding="utf-8") if target_path.is_file() else ""
             existing_meta, existing_body = parse_front_matter(existing) if existing else ({}, "")
             if locale.lower() in {"jp", "ja"}:
@@ -323,12 +330,12 @@ def build_gallery(root: Path, output: Path, locales: list[str]) -> None:
         write_generated_html(gallery_root / "index.html", index)
 
 
-def build_site(root: Path, provider: Optional[MockTranslationProvider] = None) -> None:
+def build_site(root: Path, provider: Optional[MockTranslationProvider] = None, candidate_root: Optional[Path] = None) -> None:
     if yaml is None or markdown is None:
         raise RuntimeError(dependency_error_message())
 
     provider = provider or MockTranslationProvider()
-    build_master_pages(root, provider)
+    build_master_pages(root, provider, publication_override=candidate_root)
     dictionary_path = root / "config" / "term_dictionary.yaml"
     entries = load_term_dictionary(dictionary_path)
 
@@ -340,7 +347,7 @@ def build_site(root: Path, provider: Optional[MockTranslationProvider] = None) -
     from validate_framework import forbidden_segment
     if not isinstance(publication, str) or forbidden_segment(publication):
         raise ValueError('Unsafe publication root')
-    output = (root / publication).resolve()
+    output = candidate_root.resolve() if candidate_root else (root / publication).resolve()
     if output == root.resolve() or not output.is_relative_to(root.resolve()):
         raise ValueError('Publication root must be inside the project')
     publish_web_assets(root, output)
@@ -348,6 +355,7 @@ def build_site(root: Path, provider: Optional[MockTranslationProvider] = None) -
     site_en = output / TARGET_LOCALE
     site_jp.mkdir(parents=True, exist_ok=True)
     site_en.mkdir(parents=True, exist_ok=True)
+    build_html_masters(root, output)
     supported_locales = [str(value) for value in ((config or {}).get("locales") or {}).get("supported", ["jp", "en"])]
 
     for jp_path in sorted(jp_dir.glob("*.md")):
@@ -388,6 +396,7 @@ def build_site(root: Path, provider: Optional[MockTranslationProvider] = None) -
 def main(argv: Optional[list[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Build translated content and HTML")
     parser.add_argument("--root", default=".", help="Repository root")
+    parser.add_argument("--candidate-root", help="Clean candidate output directory; publication root is not written")
     args = parser.parse_args(argv)
 
     if yaml is None or markdown is None:
@@ -396,7 +405,8 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     root = Path(args.root).resolve()
     try:
-        build_site(root)
+        candidate = Path(args.candidate_root).resolve() if args.candidate_root else None
+        build_site(root, candidate_root=candidate)
     except (OSError, ValueError, RuntimeError) as exc:
         print(str(exc), file=sys.stderr)
         return 2
