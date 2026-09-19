@@ -2,11 +2,28 @@
 
 All notable **public** changes to HADA Website Template releases.
 
+## [0.2.2] — 2026-09-19
+
+### Added
+
+- Added the built-in `content/pages/*_master.md` i18n pipeline
+- Added locale snapshots such as `*_JP.md`, `*_EN.md`, and additional locales
+- Added block-aware translation with protected inline code, URLs, HTML, and code fences
+- Added `i18n-comments` support for translating comments while preserving code
+- Added source hashes and translation lifecycle metadata to generated snapshots
+- Allowed valid additional locale codes such as `de`
+- Added three-locale regression coverage for JP, EN, and DE
+
+### Compatibility
+
+- Preserved the legacy `content/jp/` and `content/en/` pipeline
+- No Git commit, tag, push, or GitHub Release is performed by this work
+
 ## [0.2.1] — 2026-09-17
 
 ### Changed
 
-- Added the common machine-readable manifest schema
+- Added the common machine-readable manifest schema across Dev, Public, and Sample
 - Added `manifest_version`, `template.release`, compatibility metadata, repository metadata, and `files.template_base`
 - Added manifest/Base consistency validation and regression tests
 - Preserved `schema_version` and `data_format_version` at `0.1`
