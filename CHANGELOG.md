@@ -2,6 +2,24 @@
 
 All notable **public** changes to HADA Website Template releases.
 
+## [0.3.2] — 2026-09-20
+
+### Added
+
+- Added long-lived static Web and Web Archive compatibility policy
+- Added Core display configuration for theme, text size, mode, and optional persistence
+- Added local optional display enhancement without external JavaScript or CDN dependencies
+- Added CSS-first fallback behavior for Light, Standard, and Standard Mode
+- Added keyboard-accessible theme and text-size controls to generated Markdown pages
+- Added `prefers-color-scheme` and `prefers-reduced-motion` support
+
+### Compatibility
+
+- Semantic HTML and ordinary links remain usable without JavaScript
+- PWA Timer remains a bounded local-JavaScript exception
+- `config/project.yaml` `project.version` remains independent
+- Existing i18n, gallery, image, custom publication-root, and HTML Master workflows remain supported
+
 ## [0.3.1] — 2026-09-19
 
 ### Added
