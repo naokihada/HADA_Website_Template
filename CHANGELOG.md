@@ -2,6 +2,23 @@
 
 All notable **public** changes to HADA Website Template releases.
 
+## [0.3.3] — 2026-09-20
+
+### Added
+
+- Added a shared, versioned Display State contract across page, locale, and gallery navigation.
+- Added best-effort localStorage persistence for theme, text size, and display mode.
+- Added safe fallback for invalid stored data, unsupported values, private browsing, and storage quota errors.
+- Added configurable persistence storage and key through `display.persistence`.
+- Added regression coverage for persistence configuration and generated page attributes.
+
+### Compatibility
+
+- No server communication is used for display state.
+- JavaScript-disabled pages remain readable and navigable with standard display defaults.
+- `config/project.yaml` `project.version` remains independent.
+- Existing i18n, gallery, image, custom publication-root, and HTML Master workflows remain supported.
+
 ## [0.3.2] — 2026-09-20
 
 ### Added
