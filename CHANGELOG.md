@@ -2,6 +2,64 @@
 
 All notable **public** changes to HADA Website Template releases.
 
+## [Unreleased]
+
+### Added
+
+- Added an explicit HTML-detail gallery link contract with direct image links
+  disabled by default and available only through explicit project opt-in.
+- Added configurable text-logo Web overlays for generated JPEG derivatives,
+  with clean retained masters and thumbnails, provenance, and configuration
+  fingerprints for deterministic regeneration.
+- Added background-protection and foreground-first accessibility policy with a
+  deterministic contrast audit for configured color pairs.
+- Added configuration-driven UI profiles: `shared-shell`, `standalone`, and `pwa`.
+- Added an optional Playwright browser contract runner with route discovery,
+  local-server execution, external-request blocking, desktop/mobile viewports,
+  overflow checks, and Display State navigation persistence checks.
+- Added shared semantic light/dark surface tokens and responsive long-identifier
+  safeguards.
+- Added isolated candidate build promotion with ownership-aware preservation and
+  `REVIEW_REQUIRED` handling for unknown publication files.
+- Added browser-contract verification to the safe Template Upgrade candidate gate.
+
+### Compatibility
+
+- Published pages remain static and do not require Playwright, external JavaScript,
+  a CDN, or a server runtime.
+- Existing direct content builds remain supported; Release and Upgrade workflows
+  should use candidate build plus explicit promotion.
+- LocalStorage remains the default Display State persistence mechanism. Cookie
+  persistence is not inferred as a Core requirement.
+
+## [0.4.0] — 2026-09-23
+
+### Added
+
+- Added a media-neutral catalog for images, video, and PDF/document assets, with
+  a reserved extension point for future audio support.
+- Added recursive media collections, static gallery/detail output, and comic or
+  sequential reading in single-page and optional two-page spread layouts.
+- Added configurable reading direction, first-page placement, localized Next /
+  Prev labels, filename ordering, and representative-image behavior when a
+  collection listing is hidden.
+- Added best-effort media metadata processing policy, separate from experimental
+  embedded-signal transformation, plus configurable domain-mark precedence.
+- Added a reviewable v0.3 image-catalog migration path and v0.4.0 Sample/test
+  coverage for media fallbacks and comic presentation.
+
+### Compatibility and Upgrade Warning
+
+- **The media data structure changes in v0.4.0 and may require migration.**
+  Review the generated migration plan before applying it; masters and unknown
+  files are preserved.
+- Existing v0.3 image manifests remain readable during transition. No migration
+  silently rewrites a consumer's manifest or publication output.
+- Audio playback/conversion, direct AI-master publication, and content-embedded
+  provenance-signal modification are not implemented.
+- Published pages remain static and do not require external JavaScript, a CDN,
+  or a server runtime.
+
 ## [0.3.3] — 2026-09-20
 
 ### Added
