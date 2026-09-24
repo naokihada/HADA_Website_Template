@@ -4,7 +4,7 @@ Automated test definitions for framework tools.
 
 Record results in `AI/reports/TEST.md`.
 
-## Test files (v0.2.0)
+## Test files
 
 | File | Tests | Scope |
 |---|---|---|
@@ -12,8 +12,25 @@ Record results in `AI/reports/TEST.md`.
 | `test_translation.py` | 13 | Translation pipeline and build |
 | `test_upgrade_from_release.py` | 20 | Template Upgrade engine (offline-safe) |
 | `test_pwa_timer.py` | 5 | PWA Timer install contract and manifest icons |
+| `test_template_base.py` | 8 | Adoption metadata and mismatch safety |
+| `test_file_transaction.py` | 3 | Hash-bound backup and conflict safety |
+| `test_legacy_workspace.py` | 2 | Retired workspace migration safety |
+| `test_release_prepare.py` | 4 | Allowlisted sibling, internal evidence, and release fixture boundaries |
+| `test_navigation.py` | 5 | Static hierarchy, breadcrumb, localization markup, and responsive CSS contract |
 
-**Total: 53 tests** (28 framework/translation + 20 upgrade + 5 PWA Timer).
+The suite includes the framework, translation, upgrade, PWA Timer, asset,
+gallery, safe HTML Master, navigation, release snapshot, Site Contract, and display policy
+regressions. Run every `test_*.py` module for the current total.
+
+`test_site_link_policy.py` verifies root-relative URLs and treats an apex host
+and its `www` alias as one site. `test_external_javascript_policy.py` verifies
+the default prohibition and the explicit optional client-only declaration path.
+
+The optional browser contract is provided by `tests/test_browser_ui.py`. It uses
+`tests/requirements-ui.txt`, starts a local static server rooted at the configured
+`paths.local_test_root`, blocks external requests by default, and discovers routes
+from the publication tree and Page Registry. A missing Playwright runtime or
+browser is `REVIEW_REQUIRED` for release verification.
 
 ## Run
 
@@ -21,10 +38,18 @@ From repository root:
 
 ```text
 pip install -r tools/core/requirements.txt
+pip install -r tests/requirements-ui.txt
 python tests/test_validate_framework.py
 python tests/test_translation.py
 python tests/test_upgrade_from_release.py
 python tests/test_pwa_timer.py
+python tests/test_browser_ui.py
+```
+
+Install the Chromium runtime once when the browser contract is enabled:
+
+```text
+python -m playwright install chromium
 ```
 
 Upgrade tests are **offline-safe** by default (mocked GitHub API). Live GitHub Release

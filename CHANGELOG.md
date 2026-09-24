@@ -32,6 +32,24 @@ All notable **public** changes to HADA Website Template releases.
 - LocalStorage remains the default Display State persistence mechanism. Cookie
   persistence is not inferred as a Core requirement.
 
+## [0.4.1] — 2026-09-23
+
+### Added
+
+- Added static primary and section navigation patterns with localized labels,
+  current-page semantics, and logical breadcrumb hierarchies.
+- Added responsive, CSS-only navigation examples: the secondary row is reserved
+  on wide layouts and empty space is removed on narrow screens.
+- Added per-page HTML Master authoring guidance and a multilingual Sample
+  demonstration; no navigation is injected into existing consumer pages.
+
+### Compatibility
+
+- No route, Page Registry schema, or media data-format changes.
+- Existing sites opt in by editing their localized HTML Masters; existing pages
+  are not automatically rewritten by build or upgrade.
+- No JavaScript, database, server routing, or external runtime dependency is added.
+
 ## [0.4.0] — 2026-09-23
 
 ### Added
