@@ -2,10 +2,32 @@
 
 All notable **public** changes to HADA Website Template releases.
 
+## [0.4.2] — 2026-11-06
+
+### Added
+
+- Adopted compatible HADA Base v0.1.1 operations: append-only `WHY.md` records and
+  opt-in, hash-deduplicated conversation import into the Website archive.
+- Added recursive manual image-set intake with stable folder-derived identities,
+  natural-order previews, append-only re-import, and protected staged promotion.
+- Added a progressive local image viewer with keyboard, touch, zoom, fullscreen,
+  and static-link fallback while retaining generated static collection pages.
+- Enforced configured canonical hosts for canonical and localized alternate URLs.
+
+### Compatibility
+
+- Added the direct v0.4.1 → v0.4.2 upgrade edge. Existing user content and archived
+  conversations are not moved or replaced automatically.
+- Existing media manifests remain supported; the viewer is an optional enhancement
+  to generated pages and uses no third-party runtime.
+
 ## [Unreleased]
 
 ### Added
 
+- Added opt-in safe partial Template Upgrade application for verified, conflict-free template-owned additions and updates; conflicts, removals, project configuration, and adoption metadata remain pending.
+- Made tree-parity checks read-only by default; JSON reports are written only to an explicitly requested path.
+- Automatically update the displayed Template version in recognized footer attributions linked to the Template repository during upgrades, while preserving unrelated links and refreshing matching HTML-master registry hashes.
 - Added an explicit HTML-detail gallery link contract with direct image links
   disabled by default and available only through explicit project opt-in.
 - Added configurable text-logo Web overlays for generated JPEG derivatives,
@@ -25,6 +47,9 @@ All notable **public** changes to HADA Website Template releases.
 
 ### Compatibility
 
+- Corrected the migration graph to include **v0.4.0 → v0.4.1** and added a mandatory
+  Dev release-preparation gate that checks the direct path from the latest prior
+  stable Public tag before producing an apply plan.
 - Published pages remain static and do not require Playwright, external JavaScript,
   a CDN, or a server runtime.
 - Existing direct content builds remain supported; Release and Upgrade workflows
@@ -194,7 +219,7 @@ All notable **public** changes to HADA Website Template releases.
 ### Added
 
 - **Template Upgrade** from GitHub stable Release (`tools/core/upgrade_from_release.py`)
-- **`config/template.manifest.yaml`** — template version and ownership contract
+- **`config/website-template.json`** — template version and ownership contract
 - **`docs/UPGRADE.md`** — public upgrade guide
 - Three-way migration (Previous Template / Current Site / New Template)
 - Network preflight and retained temporary clone for inspection

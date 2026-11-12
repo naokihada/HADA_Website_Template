@@ -65,7 +65,7 @@ Agent-relevant deploy boundary only:
 | `SPEC.md` | Template implementation specification (Dev only; not in Public Release) |
 | `AGENTS.md` | Agent-independent operation framework (this file) |
 | `AI/` | Agent-neutral operation workspace; excluded from Web Publish |
-| `config/template.manifest.yaml` | Template version and upgrade ownership (Public from v0.1.2; `SPEC.md` §1.7) |
+| `config/website-template.json` | Template version and upgrade ownership (Public from v0.1.2; `SPEC.md` §1.7) |
 | `content/` | Content Master by locale (`en/`, `jp/`) |
 | `site/` | Publication Root — deployable web output |
 | `references/` | External reference registry, cache, reports |
@@ -100,6 +100,14 @@ Update SPEC.md → Implement per SPEC.md → Test → Validation → Scope/Secur
 ---
 
 ## Agent authority
+
+### Human intent records
+
+Read the root `WHY.md` before significant work. Record only durable reasons,
+values, and priorities explicitly stated or adopted by the project owner. Preserve
+earlier entries and append approved reasons with
+`python tools/core/record_why.py --root .`. Conversation archives are provenance,
+not decision records.
 
 Unless the human **explicitly instructs** otherwise, agents must **not**:
 
